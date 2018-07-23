@@ -5,7 +5,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const port = process.env.PORT || 5435
+const port = process.env.PORT || 5445
 const knex = require('./knex')
 const createError = require('http-errors')
 const path = require('path')
@@ -36,7 +36,9 @@ const owners = require('./routes/owners')
 // app.use('/login', login)
 // app.use('/index', index)
 
-
+app.get('/', (req,res,next) => {
+  res.send('diz food app server')
+})
 // write a catch all route that will respond with status of 418
 app.use((req,res,next) => {
   res.status(418).send({error: {message: "418 you teapot"}})

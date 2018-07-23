@@ -4,7 +4,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgresql://localhost:5435'
+    connection: 'postgres://localhost:5432/mffbackend'
   },
 
   production: {
@@ -12,4 +12,4 @@ module.exports = {
     connection: process.env.DATABASE_URL
   }
 
-};
+}
