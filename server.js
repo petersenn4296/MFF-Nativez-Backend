@@ -5,44 +5,41 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5435
+const knex = require('./knex')
+const createError = require('http-errors')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+
 
 // Use body parser https://www.npmjs.com/package/body-parser
 // See Express/Connect top-level generic for code to use here
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-// write a route for getting all of the cookies, respond with a 200 status code
-app.get('/cookies/', (req,res,next) => {
-  res.sendStatus(200)
-})
+
+//Routers
+const owners = require('./routes/owners')
+// const items = require('./routes/items')
+// const order_items = require('./routes/order_items')
+// const orders = require('./routes/orders')
+// const trucks = require('./routes/trucks')
+// const login = require('./routes/login')
+// const index = require('./routes/index')
+
+//use Routers
+// app.use('/users', users)
+// app.use('/properties', properties)
+// app.use('/properties_users', properties_users)
+// app.use('/contracts', contracts)
+// app.use('/login', login)
+// app.use('/index', index)
 
 
-// write a route for getting one of the cookies, respond with the parameter id and make sure the id is converted to a string before sending
-app.get('/cookies/:id', (req,res,next) => {
-  res.status(200).send(req.params.id)
-})
-
-// write a route for creating a cookie, return the body of the request that was sent to your route
-app.post('/cookies', (req,res,next) => {
-  res.status(200).send(req.body)
-})
-
-// write a patch route for editing a cookie, return an object with the id and the change that was requested
-app.patch('/cookies/:id', (req,res,next) => {
-  let result = { id:req.params.id, name:req.body.name }
-  res.status(200).send(result)
-})
-
-// write a route for deleting one of the cookies, respond with the parameter id
-app.delete('/cookies/:id', (req,res,next) => {
-  res.status(200).send(req.params.id)
-})
-
-// write a catch all route that will respond with status of 418 ;)
-//https://sitesdoneright.com/blog/2013/03/what-is-418-im-a-teapot-status-code-error
+// write a catch all route that will respond with status of 418
 app.use((req,res,next) => {
-  res.status(404).send({error: {message: "Not Found"}})
+  res.status(418).send({error: {message: "418 you teapot"}})
 })
 
 
