@@ -29,10 +29,22 @@ router.get('/', (req,res,next) => {
   })
 })
 
-// write a route for getting all of the orders linked to one owner, respond with the parameter id and make sure the id is converted to a string before sending
+// write a route for getting all of the orders linked to one truck, respond with the parameter id and make sure the id is converted to a string before sending
 router.get('/:id', (req,res,next) => {
   knex('orders')
   .where('truck_id',req.params.id)
+  .then((rows) => {
+    res.json(rows)
+  })
+  .catch((err) => {
+    next(err)
+  })
+})
+
+// write a route for getting all of the one order by id, respond with the parameter id and make sure the id is converted to a string before sending
+router.get('/order/:id', (req,res,next) => {
+  knex('orders')
+  .where('id',req.params.id)
   .then((rows) => {
     res.json(rows)
   })

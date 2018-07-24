@@ -46,7 +46,7 @@ router.get('/:id', (req,res,next) => {
 })
 
 // write a route for getting one of the trucks, respond with the parameter id and make sure the id is converted to a string before sending
-router.get('/:id', (req,res,next) => {
+router.get('/truck/:id', (req,res,next) => {
   knex('trucks')
   .where('id',req.params.id)
   .then((rows) => {
