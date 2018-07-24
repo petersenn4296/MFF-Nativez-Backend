@@ -8,32 +8,31 @@ const jwt = require('jsonwebtoken')
 // write a route for creating a users, return the body of the request that was sent to your route
 router.post('/', (req,res,next) => {
   knex('users')
-    .where('email', req.body.email)
+    .where('username', req.body.username)
     .then((result) => {
       if (result.length !== 0) {
-        res.status(400).json({ errorMessage: 'Existing Email' })
+        res.status(400).json({ errorMessage: 'Existing User' })
       }
       else {
         let hashWord = hashSync(req.body.password)
         knex('users')
           .insert({
-            "first_name": req.body.first_name,
-            "last_name": req.body.last_name,
-            "phone_number": req.body.phone_number,
+            "username": req.body.name,
             "email": req.body.email,
+            "tel": req.body.tel,
             "password": hashWord,
-            "ispm": req.body.ispm
+            "isOwner": req.body.isOwner
           })
           .returning('*')
           .then((data) => {
             const payload = {
-              email: data[0].email,
+              username: data[0].username,
               userId: data[0].id
             }
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' })
             res.cookie('jwt', token)
-            if(!data[0].ispm){
-              res.send(`eater`)
+            if(!data[0].isOwner){
+              res.send(`eater`)//////this is the data that the frontend will use to determine user
             } else {
               res.send(`owner`)
             }
@@ -79,12 +78,10 @@ router.put('/:id', (req,res,next) => {
       .where('id', req.params.id)
       .limit(1)
       .update({
-        "first_name": req.body.first_name,
-        "last_name": req.body.last_name,
-        "phone_number": req.body.phone_number,
+        "name": req.body.name,
         "email": req.body.email,
         "password": req.body.password,
-        "ispm": req.body.ispm
+        "isOwner": req.body.isOwner
       })
       .returning('*')
       .then((data) => {

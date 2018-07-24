@@ -4,7 +4,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost:5432/mffbackend'
+    connection: 'postgres://localhost:5432/mffapi'
   },
 
   production: {

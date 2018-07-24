@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 
 
 //Routers
-const owners = require('./routes/owners')
+const users = require('./routes/users')
 // const items = require('./routes/items')
 // const order_items = require('./routes/order_items')
 // const orders = require('./routes/orders')
@@ -29,7 +29,7 @@ const owners = require('./routes/owners')
 // const index = require('./routes/index')
 
 //use Routers
-// app.use('/users', users)
+app.use('/users', users)
 // app.use('/properties', properties)
 // app.use('/properties_users', properties_users)
 // app.use('/contracts', contracts)
