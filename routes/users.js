@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('../node_modules/express')
 const router = express.Router()
 const knex = require('../knex')
@@ -17,7 +18,7 @@ router.post('/', (req,res,next) => {
         let hashWord = hashSync(req.body.password)
         knex('users')
           .insert({
-            "username": req.body.name,
+            "username": req.body.username,
             "email": req.body.email,
             "tel": req.body.tel,
             "password": hashWord,
@@ -32,9 +33,9 @@ router.post('/', (req,res,next) => {
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' })
             res.cookie('jwt', token)
             if(!data[0].isOwner){
-              res.send(`eater`)//////this is the data that the frontend will use to determine user
+              res.send(`user: eater`)//////this is the data that the frontend will use to determine user
             } else {
-              res.send(`owner`)
+              res.send(`user: owner`)
             }
           })
           .catch((err) => {

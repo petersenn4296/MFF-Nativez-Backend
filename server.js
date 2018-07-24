@@ -20,21 +20,21 @@ app.use(bodyParser.json())
 
 
 //Routers
+const login = require('./routes/login')
 const users = require('./routes/users')
-// const items = require('./routes/items')
-// const order_items = require('./routes/order_items')
-// const orders = require('./routes/orders')
-// const trucks = require('./routes/trucks')
-// const login = require('./routes/login')
+const trucks = require('./routes/trucks')
+const items = require('./routes/items')
+const orders = require('./routes/orders')
+const order_items = require('./routes/order_items')
 // const index = require('./routes/index')
 
 //use Routers
+app.use('/login', login)
 app.use('/users', users)
-// app.use('/properties', properties)
-// app.use('/properties_users', properties_users)
-// app.use('/contracts', contracts)
-// app.use('/login', login)
-// app.use('/index', index)
+app.use('/trucks', trucks)
+app.use('/items', items)
+app.use('/orders', orders)
+app.use('/order_items', order_items)
 
 app.get('/', (req,res,next) => {
   res.send('diz food app server')
