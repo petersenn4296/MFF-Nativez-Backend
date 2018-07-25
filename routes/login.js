@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
           }
           const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' })
           res.cookie('jwt', token)
-          res.status(200).json(result[0])
+          res.status(200).send(result[0])
         }
         else {
           res.status(400).json({ errorMessage: 'Bad password' })
