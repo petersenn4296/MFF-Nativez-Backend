@@ -32,11 +32,7 @@ router.post('/', (req,res,next) => {
             }
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' })
             res.cookie('jwt', token)
-            if(!data[0].isOwner){
-              res.send(`user: eater`)//////this is the data that the frontend will use to determine user
-            } else {
-              res.send(`user: owner`)
-            }
+            res.status(200).json(data[0])
           })
           .catch((err) => {
             next(err)
