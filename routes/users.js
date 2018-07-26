@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 // write a route for creating a users, return the body of the request that was sent to your route
 router.post('/', (req,res,next) => {
   knex('users')
-    .where('username', req.body.username)
+    .where('username', req.body.username.toLowerCase())
     .then((result) => {
       if (result.length !== 0) {
         res.status(400).json({ errorMessage: 'Existing User' })
@@ -18,7 +18,7 @@ router.post('/', (req,res,next) => {
         let hashWord = hashSync(req.body.password)
         knex('users')
           .insert({
-            "username": req.body.username,
+            "username": req.body.username.toLowerCase,
             "email": req.body.email,
             "tel": req.body.tel,
             "password": hashWord,
