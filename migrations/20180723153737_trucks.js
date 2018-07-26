@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
   table.string('name').notNullable().defaultTo('')
   table.string('img_url',255).defaultTo('https://image.freepik.com/free-vector/retro-food-truck_23-2147530708.jpg')
   table.boolean('veggiefriendly')
+  table.boolean('isOpen')
   table.float('latitude')
   table.float('longitude')
   })
