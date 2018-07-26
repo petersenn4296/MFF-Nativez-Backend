@@ -18,7 +18,7 @@ router.post('/', (req,res,next) => {
         let hashWord = hashSync(req.body.password)
         knex('users')
           .insert({
-            "username": req.body.username.toLowerCase,
+            "username": req.body.username.toLowerCase(),
             "email": req.body.email,
             "tel": req.body.tel,
             "password": hashWord,
