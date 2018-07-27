@@ -34,7 +34,7 @@ router.get('/', (req,res,next) => {
 })
 
 // write a route for getting all of the trucks linked to one owner, respond with the parameter id and make sure the id is converted to a string before sending
-router.get('/:id/orders', (req,res,next) => {
+router.get('orders/:id', (req,res,next) => {
 let order_items = []
 
   knex('trucks')
