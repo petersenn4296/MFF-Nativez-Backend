@@ -8,7 +8,7 @@ router.post('/', (req,res,next) => {
   knex('orders')
     .insert({
       "truck_id": req.body.truck_id,
-      "user_id": req.body.user_id
+      "eater_id": req.body.eater_id
     })
     .returning('*')
     .then((data) => (
