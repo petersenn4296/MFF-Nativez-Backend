@@ -33,10 +33,20 @@ router.get('/', (req,res,next) => {
   })
 })
 
-// write a route for getting all of the trucks linked to one owner, respond with the parameter id and make sure the id is converted to a string before sending
-router.get('orders/:id', (req,res,next) => {
-let order_items = []
+router.get('/:id', (req,res,next) => {
+  knex('trucks')
+  .where('owner_id', req.params.id)
+  .then(rows => {
+    res.json(rows)
+  })
+  .catch(err => {
+    next(err)
+  })
+})
 
+// write a route for getting all of the trucks linked to one owner, respond with the parameter id and make sure the id is converted to a string before sending
+router.get('/orders/:id', (req,res,next) => {
+let order_items = []
   knex('trucks')
   .select('username', 'tel', 'name', 'price', 'order_id', 'created_at')
   .join('orders', 'trucks.id', '=', 'orders.truck_id')
