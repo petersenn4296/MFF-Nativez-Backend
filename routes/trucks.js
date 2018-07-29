@@ -9,8 +9,10 @@ router.post('/', (req,res,next) => {
     .insert({
       "user_id": req.body.user_id,
       "name": req.body.name,
-      "veggiefriendly": req.body.veggiefriendly,
       "img_url": req.body.img,
+      "veggiefriendly": req.body.veggiefriendly,
+      "is_open": req.body.is_open,
+      "takes_orders": req.body.takes_orders,
       "latitude": req.body.latitude,
       "longitude": req.body.longitude
     })
@@ -23,8 +25,11 @@ router.post('/', (req,res,next) => {
     })
 })
 
+//all open trucks
+
 router.get('/', (req,res,next) => {
   knex('trucks')
+  .where('is_open', true)
   .then(rows => {
     res.json(rows)
   })
@@ -33,6 +38,21 @@ router.get('/', (req,res,next) => {
   })
 })
 
+//get trucks menu
+router.get('/menu/:id', (req,res,next) => {
+  knex('items')
+  .select('items.id', 'price', 'name')
+  // .join('items', 'trucks.id', '=', 'truck_id')
+  .where('truck_id', req.params.id)
+  .then(rows => {
+    res.json(rows)
+  })
+  .catch(err => {
+    next(err)
+  })
+})
+
+// trucks by owners id
 router.get('/:id', (req,res,next) => {
   knex('trucks')
   .where('owner_id', req.params.id)
@@ -44,7 +64,8 @@ router.get('/:id', (req,res,next) => {
   })
 })
 
-// write a route for getting all of the trucks linked to one owner, respond with the parameter id and make sure the id is converted to a string before sending
+
+/// big boy route returns all orders for one truck
 router.get('/orders/:id', (req,res,next) => {
 let order_items = []
   knex('trucks')
