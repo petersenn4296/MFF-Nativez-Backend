@@ -7,8 +7,8 @@ router.post('/', (req,res,next) => {
   //validate info coming in
   knex('trucks')
     .insert({
-      "user_id": req.body.user_id,
-      "name": req.body.name,
+      "owner_id": req.body.owner_id,
+      "truckName": req.body.name,
       "img_url": req.body.img,
       "veggiefriendly": req.body.veggiefriendly,
       "is_open": req.body.is_open,
@@ -17,9 +17,9 @@ router.post('/', (req,res,next) => {
       "longitude": req.body.longitude
     })
     .returning('*')
-    .then((data) => (
+    .then((data) => {
       res.send(data)
-    ))
+    })
     .catch((err) => {
       next(err)
     })
