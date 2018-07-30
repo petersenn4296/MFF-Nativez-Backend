@@ -10,14 +10,18 @@ router.post('/', function (req, res, next) {
   const password = req.body.password
   if (username && password) {
     knex('users')
+    .select('username', 'users.id', 'is_owner', 'password')
       .where('username', username)
       .then((result) => {
         if (result.length !== 1) {
           res.status(400).json({ errorMessage: 'Bad username. Flourine, Uranimum, Carbon, Potassium.' })
         }
         else if (bcrypt.compareSync(password, result[0].password)) {
-          res.status(200).json(result[0])
-          done()
+          const userJson = {
+            username: result[0].username,
+            id: result[0].id
+          }
+          res.status(200).json(userJson)
         }
         else {
           res.status(400).json({ errorMessage: 'Bad password' })

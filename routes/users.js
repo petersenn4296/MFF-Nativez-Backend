@@ -22,17 +22,15 @@ router.post('/', (req,res,next) => {
             "email": req.body.email,
             "tel": req.body.tel,
             "password": hashWord,
-            "isOwner": req.body.isOwner
+            "is_owner": req.body.is_owner
           })
           .returning('*')
           .then((data) => {
-            const payload = {
+            const userJson = {
               username: data[0].username,
-              userId: data[0].id
+              id: data[0].id
             }
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' })
-            res.cookie('jwt', token)
-            res.status(200).json(data[0])
+            res.status(200).json(userJson)
           })
           .catch((err) => {
             next(err)
@@ -78,7 +76,7 @@ router.put('/:id', (req,res,next) => {
         "name": req.body.name,
         "email": req.body.email,
         "password": req.body.password,
-        "isOwner": req.body.isOwner
+        "is_owner": req.body.is_owner
       })
       .returning('*')
       .then((data) => {
