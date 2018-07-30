@@ -19,7 +19,8 @@ router.post('/', function (req, res, next) {
         else if (bcrypt.compareSync(password, result[0].password)) {
           const userJson = {
             username: result[0].username,
-            id: result[0].id
+            id: result[0].id,
+            is_owner: result[0].is_owner
           }
           res.status(200).json(userJson)
         }
