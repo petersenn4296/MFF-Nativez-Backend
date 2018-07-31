@@ -12,7 +12,7 @@ router.post('/', (req,res,next) => {
     })
     .returning('*')
     .then((data) => (
-      res.send(data)
+      res.status(200).json(data[0].id)
     ))
     .catch((err) => {
       next(err)
