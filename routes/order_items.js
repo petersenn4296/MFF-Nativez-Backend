@@ -3,21 +3,24 @@ const router = express.Router()
 const knex = require('../knex')
 
 // write a route for creating a order_items, return the body of the request that was sent to your route
-router.post('/', (req,res,next) => {  
-  //validate info coming in
-  knex('order_items')
+router.post('/', (req,res,next) => {
+
+  req.body.forEach(item => {
+    return knex('order_items')
     .insert({
-      "order_id": req.body.order_id,
-      "item_id": req.body.item_id,
-      "quantity": req.body.quanitity
+      "order_id": item.order_id,
+      "item_id": item.item_id,
+      "quantity": item.quantity
     })
-    .returning('*')
+    // .returning('*')
     .then((data) => (
-      res.send(data)
+      // console.log(data)
+      res.status(200)
     ))
     .catch((err) => {
       next(err)
     })
+  })
 })
 
 router.get('/', (req,res,next) => {

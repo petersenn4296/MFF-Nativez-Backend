@@ -3,6 +3,7 @@ exports.up = function(knex, Promise) {
   table.increments().notNullable()
   table.integer('truck_id').unsigned().index().references('id').inTable('trucks').onDelete('CASCADE')
   table.integer('eater_id').unsigned().index().references('id').inTable('users').onDelete('CASCADE')
+  table.integer('total').unsigned().index().defaultTo(0)
   table.timestamps(true, true)
   })
 }
