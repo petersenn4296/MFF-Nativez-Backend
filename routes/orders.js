@@ -55,22 +55,43 @@ router.get('/order/:id', (req,res,next) => {
 })
 
 // write a route for deleting one of the orders, respond with the parameter id
-router.delete('/:id', (req,res,next) => {
-  knex('orders')
-  .where('id', req.params.id)
-  .first()
-  .then((row) => {
-    if(!row) return next()
-    knex('orders')
-      .del()
-      .where('id', req.params.id)
-      .then(() => {
-        res.send(`ID ${req.params.id} Deleted`)
-      })
+// router.delete('/:id', (req,res,next) => {
+//   console.log('59 back orders', req.params.id);
+//   knex('orders')
+//   .where('id', req.params.id)
+//   .first()
+//   .then((row) => {
+//     if(!row) return next()
+//     knex('orders')
+//       .del()
+//       .where('id', req.params.id)
+//       .then(() => {
+//         res.send(`ID ${req.params.id} Deleted`)
+//       })
+//   })
+//   .catch((err) => {
+//     next(err)
+//   })
+// })
+
+router.delete('/:id/truck/:truckId', (req,res,next) => {
+  knex('order_items')
+  .where('order_id', req.params.id)
+  .del()
+  .then(() => {
+    return knex ('orders')
+           .where('id', req.params.id)
+           .del()
+           .then(() => {
+             return knex ('orders')
+                    .where('truck_id', req.params.truckId)
+                    .returning('*')
+                    .then((data) => {
+                      res.status(200).json(data)
+                    })
+           })
   })
-  .catch((err) => {
-    next(err)
-  })
+
 })
 
 module.exports = router
