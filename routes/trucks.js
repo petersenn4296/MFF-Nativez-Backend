@@ -67,9 +67,9 @@ router.get('/:id', (req,res,next) => {
 
 /// big boy route returns all orders for one truck
 router.get('/orders/:id', (req,res,next) => {
-let order_items = []
+// let order_items = []
   knex('trucks')
-  .select('username', 'tel', 'name', 'price', 'order_id', 'created_at')
+  .select('username', 'tel', 'name', 'price', 'order_id', 'created_at', 'quantity', 'total')
   .join('orders', 'trucks.id', '=', 'orders.truck_id')
   .join('order_items', 'orders.id', '=', 'order_items.order_id')
   .join('items', 'item_id', '=', 'items.id')
@@ -90,15 +90,18 @@ let order_items = []
           name: order.username,
           tel: order.tel,
           created_at: order.created_at,
+          total: order.total,
           items: [
             {
               name: order.name,
-              price: order.price
+              price: order.price,
+              quantity: order.quantity
             }
           ]
         }
       }
     })
+    console.log(ordersById);
     res.json(ordersById)
   })
   .catch((err) => {

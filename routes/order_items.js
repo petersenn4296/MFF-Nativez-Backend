@@ -2,9 +2,8 @@ const express = require('../node_modules/express')
 const router = express.Router()
 const knex = require('../knex')
 
-// write a route for creating a order_items, return the body of the request that was sent to your route
+// eater confirms order adds item to orders and navigates to logged in eater
 router.post('/', (req,res,next) => {
-
   req.body.forEach(item => {
     return knex('order_items')
     .insert({
@@ -22,7 +21,6 @@ router.post('/', (req,res,next) => {
     })
   })
 })
-
 router.get('/', (req,res,next) => {
   knex('order_items')
   .then(rows => {
@@ -32,8 +30,6 @@ router.get('/', (req,res,next) => {
     next(err)
   })
 })
-
-// write a route for getting all of the order_items linked to one order_id, respond with the parameter id and make sure the id is converted to a string before sending
 router.get('/:id', (req,res,next) => {
   knex('order_items')
   .where('order_id',req.params.id)
