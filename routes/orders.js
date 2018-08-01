@@ -76,7 +76,6 @@ router.delete('/:id/truck/:truckId', (req,res,next) => {
                      }
                    }
                  })
-                 console.log(ordersById);
                  res.json(ordersById)
                })
                .catch((err) => {

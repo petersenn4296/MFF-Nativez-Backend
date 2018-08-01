@@ -3,7 +3,7 @@ const router = express.Router()
 const knex = require('../knex')
 
 // write a route for creating a items, return the body of the request that was sent to your route
-router.post('/', (req,res,next) => {
+router.post('/:id', (req,res,next) => {
   //validate info coming in
   knex('items')
     .insert({
@@ -12,11 +12,17 @@ router.post('/', (req,res,next) => {
       "name": req.body.name
     })
     .returning('*')
-    .then((data) => (
-      res.send(data)
-    ))
-    .catch((err) => {
-      next(err)
+    .then(() => {
+            return knex('items')
+        .select('items.id', 'price', 'name')
+        // .join('items', 'trucks.id', '=', 'truck_id')
+        .where('truck_id', req.params.id)
+        .then(rows => {
+          res.json(rows)
+        })
+        .catch(err => {
+          next(err)
+        })
     })
 })
 //

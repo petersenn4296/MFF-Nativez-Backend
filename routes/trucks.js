@@ -3,7 +3,7 @@ const router = express.Router()
 const knex = require('../knex')
 
 // write a route for creating a trucks, return the body of the request that was sent to your route
-router.post('/', (req,res,next) => {
+router.post('/:id', (req,res,next) => {
   //validate info coming in
   knex('trucks')
     .insert({
@@ -16,12 +16,16 @@ router.post('/', (req,res,next) => {
       "latitude": req.body.latitude,
       "longitude": req.body.longitude
     })
-    .returning('*')
-    .then((data) => {
-      res.send(data)
-    })
-    .catch((err) => {
-      next(err)
+    .then(() => {
+      // res.send(data)
+      return knex('trucks')
+        .where('owner_id', req.params.id)
+        .then(rows => {
+          res.json(rows)
+        })
+        .catch(err => {
+          next(err)
+        })
     })
 })
 
@@ -101,7 +105,6 @@ router.get('/orders/:id', (req,res,next) => {
         }
       }
     })
-    console.log(ordersById);
     res.json(ordersById)
   })
   .catch((err) => {

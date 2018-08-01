@@ -11,9 +11,7 @@ router.post('/', (req,res,next) => {
       "item_id": item.item_id,
       "quantity": item.quantity
     })
-    // .returning('*')
-    .then((data) => (
-      // console.log(data)
+    .then(() => (
       res.status(200)
     ))
     .catch((err) => {
