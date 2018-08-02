@@ -29,6 +29,21 @@ router.post('/:id', (req,res,next) => {
     })
 })
 
+router.put('/:truckId/:value', (req,res,next) => {
+  knex('trucks')
+  .where('id', req.params.truckId)
+  .limit(1)
+  .update({'is_open': req.params.value})
+  .returning('*')
+  .then(() => {
+    knex('trucks')
+    .where('is_open', true)
+    .then(rows => {
+      res.json(rows)
+    })
+  })
+})
+
 //all open trucks
 
 router.get('/', (req,res,next) => {
@@ -71,7 +86,6 @@ router.get('/:id', (req,res,next) => {
 
 /// big boy route returns all orders for one truck
 router.get('/orders/:id', (req,res,next) => {
-// let order_items = []
   knex('trucks')
   .select('username', 'tel', 'name', 'price', 'order_id', 'created_at', 'quantity', 'total')
   .join('orders', 'trucks.id', '=', 'orders.truck_id')
@@ -80,6 +94,7 @@ router.get('/orders/:id', (req,res,next) => {
   .join('users', 'orders.eater_id', '=', 'users.id')
   .where('orders.truck_id', req.params.id)
   .then((allInfo) => {
+    // console.log('98 allInfo', allInfo)
     let ordersById = {
     }
     allInfo.forEach(order => {
@@ -87,7 +102,8 @@ router.get('/orders/:id', (req,res,next) => {
         ordersById[order.order_id].items.push(
           {
             name: order.name,
-            price: order.price
+            price: order.price,
+            quantity: order.quantity
           })
       } else {
         ordersById[order.order_id] = {

@@ -58,7 +58,9 @@ router.delete('/:id/truck/:truckId', (req,res,next) => {
                      ordersById[order.order_id].items.push(
                        {
                          name: order.name,
-                         price: order.price
+                         price: order.price,
+                         quantity: order.quantity
+
                        })
                    } else {
                      ordersById[order.order_id] = {

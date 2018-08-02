@@ -11,7 +11,7 @@ router.post('/', (req,res,next) => {
       "item_id": item.item_id,
       "quantity": item.quantity
     })
-    .then(() => (
+    .then((data) => (
       res.status(200)
     ))
     .catch((err) => {
@@ -19,6 +19,7 @@ router.post('/', (req,res,next) => {
     })
   })
 })
+
 router.get('/', (req,res,next) => {
   knex('order_items')
   .then(rows => {
@@ -28,6 +29,7 @@ router.get('/', (req,res,next) => {
     next(err)
   })
 })
+
 router.get('/:id', (req,res,next) => {
   knex('order_items')
   .where('order_id',req.params.id)
