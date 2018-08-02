@@ -60,7 +60,6 @@ router.delete('/:id/truck/:truckId', (req,res,next) => {
                          name: order.name,
                          price: order.price,
                          quantity: order.quantity
-
                        })
                    } else {
                      ordersById[order.order_id] = {
