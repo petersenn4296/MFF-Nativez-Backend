@@ -1,9 +1,15 @@
-require('dotenv').config()
 const express = require('../node_modules/express')
 const router = express.Router()
 const knex = require('../knex')
 const { hashSync } = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+
+/////////////////////MVC///////////////////////////
+// const controllerz = require('../controller/login.js')
+// router.post('/', controllerz.makeUser)
+// router.put('/:id', controllerz.editUser)
+// router.delete('/:id', controllerz.deleteUser)
+/////////////////////MVC///////////////////////////
+
 
 
 // write a route for creating a users, return the body of the request that was sent to your route
@@ -38,31 +44,6 @@ router.post('/', (req,res,next) => {
       }
     })
 })
-
-// write a route for getting all of the users, respond with the parameter id and make sure the id is converted to a string before sending
-router.get('/', (req,res,next) => {
-  knex('users')
-    .then((rows) => {
-      res.json(rows)
-    })
-    .catch((err) => {
-      next(err)
-    })
-})
-
-// write a route for getting one of the users, respond with the parameter id and make sure the id is converted to a string before sending
-router.get('/:id', (req,res,next) => {
-  knex('users')
-  .where('id',req.params.id)
-  .then((rows) => {
-    res.json(rows)
-  })
-  .catch((err) => {
-    next(err)
-  })
-})
-
-
 
 // write a patch route for editing a users, return an object with the id and the change that was requested
 router.put('/:id', (req,res,next) => {

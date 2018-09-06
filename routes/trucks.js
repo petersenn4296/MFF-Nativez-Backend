@@ -94,9 +94,7 @@ router.get('/orders/:id', (req,res,next) => {
   .join('users', 'orders.eater_id', '=', 'users.id')
   .where('orders.truck_id', req.params.id)
   .then((allInfo) => {
-    // console.log('98 allInfo', allInfo)
-    let ordersById = {
-    }
+    let ordersById = {}
     allInfo.forEach(order => {
       if (ordersById[order.order_id]){
         ordersById[order.order_id].items.push(

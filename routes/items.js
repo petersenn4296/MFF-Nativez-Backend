@@ -13,16 +13,15 @@ router.post('/:id', (req,res,next) => {
     })
     .returning('*')
     .then(() => {
-            return knex('items')
-        .select('items.id', 'price', 'name')
-        // .join('items', 'trucks.id', '=', 'truck_id')
-        .where('truck_id', req.params.id)
-        .then(rows => {
-          res.json(rows)
-        })
-        .catch(err => {
-          next(err)
-        })
+      return knex('items')
+              .select('items.id', 'price', 'name')
+              .where('truck_id', req.params.id)
+      .then(rows => {
+        res.json(rows)
+      })
+      .catch(err => {
+        next(err)
+      })
     })
 })
 

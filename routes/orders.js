@@ -4,7 +4,6 @@ const knex = require('../knex')
 
 // write a route for creating a orders
 router.post('/', (req,res,next) => {
-  //validate info coming in
   knex('orders')
     .insert({
       "truck_id": req.body.truck_id,

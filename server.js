@@ -26,7 +26,6 @@ const trucks = require('./routes/trucks')
 const items = require('./routes/items')
 const orders = require('./routes/orders')
 const order_items = require('./routes/order_items')
-// const index = require('./routes/index')
 
 //use Routers
 app.use('/login', login)
